@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Book Appointment</title>
+    <link rel="stylesheet" href="formstyles.css">
+</head>
+<body>
+    <div class="container">
+    <h1>Book Appointment</h1>
+    <nav>
+        <ul class="navbar">
+            <li class="home-icon">
+                <a href="index.html">
+                    <img src="homepage.ico" alt="Home Icon" class="icon-img">
+                </a>
+            </li>
+            <li class="dropdown">
+                <a href="doctor_portal.html" class="dropbtn">Doctor Portal</a>
+                <div class="dropdown-content">
+                    <a href="schedule_appointment.html">Schedule Appointment</a>
+                    <a href="view_update_patient_info.html">View/Update Patient Info</a>
+                </div>
+            </li>
+            <li class="dropdown">
+                <a href="patient_portal.html" class="dropbtn">Patient Portal</a>
+                <div class="dropdown-content">
+                    <a href="access_health_records.html">Access Health Records</a>
+                    <a href="book_appointment.html">Book Appointment</a>
+                </div>
+            </li>
+            <li>
+                <a href="nurse_portal.html">Nurse Portal</a>
+            </li>
+            <li>
+                <a href="register_patient.html">Register Patient</a>
+            </li>
+        </ul>
+    </nav>
+    <form id="appointmentForm">
+        <label for="patientName">Patient Name:</label>
+        <input type="text" id="patientName" name="patientName" required><br>
+        
+        <label for="doctorName">Doctor's Name:</label>
+        <input type="text" id="doctorName" name="doctorName" required><br>
+        
+        <label for="date">Date:</label>
+        <input type="date" id="date" name="date" required><br>
+        
+        <label for="time">Time:</label>
+        <input type="time" id="time" name="time" required><br>
+        
+        <label for="reason">Reason:</label>
+        <textarea id="reason" name="reason" required></textarea><br>
+        
+        <button type="submit">Book</button>
+    </form>
+
+    <script>
+        document.getElementById('appointmentForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const formData = {
+                patientName: document.getElementById('patientName').value,
+                doctorName: document.getElementById('doctorName').value,
+                date: document.getElementById('date').value,
+                time: document.getElementById('time').value,
+                reason: document.getElementById('reason').value
+            };
+            
+            fetch('/appointments', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.text())
+            .then(data => {
+                alert(data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+    </div>
+</body>
+</html>
